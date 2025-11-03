@@ -1,0 +1,6 @@
+/* Optional: adds subtle blur and smooth transitions */
+header {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
