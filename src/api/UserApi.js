@@ -34,4 +34,14 @@ export const getHomeData = async () => {
   return response.data;
 };
 
+export const getAbout = async () => {
+  const res = await apiClient.get("/About/get");
+  return res.data;
+};
+
+export const updateAbout = async (data) => {
+  const res = await apiClient.post("/About/Save", data);
+  return res.data;
+};
+
 

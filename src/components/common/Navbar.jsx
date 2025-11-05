@@ -1,15 +1,16 @@
 import React, { useState, useRef } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 import { Menu, X, User, ChevronDown } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
 const navLinks = [
-  { path: "/", label: "Home" },
-  { path: "/about", label: "About" },
-  { path: "/experience", label: "Experience" },
-  { path: "/projects", label: "Projects" },
-  { path: "/skills", label: "Skills" },
-  { path: "/connect", label: "Connect" },
+  { to: "home", label: "Home" },
+  { to: "about", label: "About" },
+  { to: "experience", label: "Experience" },
+  { to: "projects", label: "Projects" },
+  { to: "skills", label: "Skills" },
+  { to: "connect", label: "Connect" },
 ];
 
 const themesList = [
@@ -24,7 +25,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const { themeName, setThemeName, theme } = useTheme();
-
   const hoverTimeout = useRef(null);
 
   const handleMouseEnter = () => {
@@ -33,7 +33,6 @@ const Navbar = () => {
   };
 
   const handleMouseLeave = () => {
-    // delay hiding to allow moving cursor into dropdown
     hoverTimeout.current = setTimeout(() => {
       setThemeMenuOpen(false);
     }, 200);
@@ -45,42 +44,38 @@ const Navbar = () => {
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 md:px-6 py-3">
         {/* Logo */}
-        <Link
+        <RouterLink
           to="/"
           className={`text-xl md:text-2xl font-semibold ${theme.accent}`}
         >
           Jayaveerapandian S
-        </Link>
+        </RouterLink>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-4 relative">
           {navLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              end={link.path === "/"}
-              className={({ isActive }) =>
-                `text-sm font-medium px-3 py-2 transition duration-200 ${
-                  isActive ? theme.accent : `${theme.text} hover:${theme.accent}`
-                }`
-              }
+            <ScrollLink
+              key={link.to}
+              to={link.to}
+              smooth={true}
+              duration={600}
+              offset={-80} // adjust based on navbar height
+              spy={true}
+              className={`cursor-pointer text-sm font-medium px-3 py-2 transition duration-200 ${theme.text} hover:${theme.accent}`}
+              activeClass={theme.accent}
             >
               {link.label}
-            </NavLink>
+            </ScrollLink>
           ))}
 
-          {/* Admin Link */}
-          <NavLink
+          {/* Admin Link (Router navigation) */}
+          <RouterLink
             to="/admin/login"
-            className={({ isActive }) =>
-              `ml-3 inline-flex items-center gap-2 text-sm font-medium transition duration-200 ${
-                isActive ? theme.accent : `${theme.text} hover:${theme.accent}`
-              }`
-            }
+            className={`ml-3 inline-flex items-center gap-2 text-sm font-medium transition duration-200 ${theme.text} hover:${theme.accent}`}
           >
             <User size={18} />
             <span className="hidden sm:inline">Admin</span>
-          </NavLink>
+          </RouterLink>
 
           {/* 🌈 Theme Dropdown */}
           <div
@@ -123,12 +118,12 @@ const Navbar = () => {
 
         {/* Mobile Controls */}
         <div className="md:hidden flex items-center">
-          <NavLink
+          <RouterLink
             to="/admin/login"
             className={`${theme.text} hover:${theme.accent} transition mr-2`}
           >
             <User size={20} />
-          </NavLink>
+          </RouterLink>
 
           <button
             onClick={() => setOpen(!open)}
@@ -147,36 +142,26 @@ const Navbar = () => {
         >
           <nav className="px-4 py-4 space-y-2 flex flex-col">
             {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                end={link.path === "/"}
+              <ScrollLink
+                key={link.to}
+                to={link.to}
+                smooth={true}
+                duration={600}
+                offset={-80}
                 onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `block text-sm font-medium px-3 py-2 transition duration-200 ${
-                    isActive
-                      ? theme.accent
-                      : `${theme.text} hover:${theme.accent}`
-                  }`
-                }
+                className={`block text-sm font-medium px-3 py-2 transition duration-200 ${theme.text} hover:${theme.accent} cursor-pointer`}
               >
                 {link.label}
-              </NavLink>
+              </ScrollLink>
             ))}
 
-            <NavLink
+            <RouterLink
               to="/admin/login"
               onClick={() => setOpen(false)}
-              className={({ isActive }) =>
-                `inline-flex items-center gap-2 px-3 py-2 text-sm font-medium transition duration-200 ${
-                  isActive
-                    ? theme.accent
-                    : `${theme.text} hover:${theme.accent}`
-                }`
-              }
+              className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium transition duration-200 ${theme.text} hover:${theme.accent}`}
             >
               <User size={18} /> Admin
-            </NavLink>
+            </RouterLink>
 
             {/* 🌈 Theme Dropdown (Mobile) */}
             <div className="pt-2">

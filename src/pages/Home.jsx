@@ -56,7 +56,7 @@ const Home = () => {
   const hoverClass = themeHoverMap[themeName] || "hover:opacity-80";
 
   return (
-    <section
+    <section id="home"
       className={`min-h-screen flex flex-col justify-center items-center ${theme.bg} ${theme.text} px-6 pt-24 md:pt-28 transition-colors duration-500`}
     >
       <motion.div

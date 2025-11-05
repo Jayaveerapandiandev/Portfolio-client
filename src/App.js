@@ -8,13 +8,14 @@ import {
 } from "react-router-dom";
 
 import Navbar from "./components/common/Navbar";
-import Home from "./pages/Home";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminCreateUser from "./pages/AdminCreateUser";
 import AdminHome from "./pages/AdminHome";
 import { ThemeProvider } from "./context/ThemeContext"; // ✅ your theme context
+import AdminAbout from "./pages/AdminAbout";
+import Main from "./pages/Main";
 
 const App = () => {
   const location = useLocation();
@@ -30,7 +31,8 @@ const App = () => {
       {/* ✅ Page Routes */}
       <Routes>
         {/* Public */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Main />} />
+       
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Protected */}
@@ -38,6 +40,7 @@ const App = () => {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/create-user" element={<AdminCreateUser />} />
           <Route path="/admin/AdminHome" element={<AdminHome />} />
+          <Route path="/admin/about" element={<AdminAbout/>}/>
         </Route>
 
         {/* Fallback */}

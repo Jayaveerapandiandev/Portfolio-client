@@ -35,3 +35,16 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   -webkit-appearance: none;
 }
 
+section {
+  @apply text-base leading-relaxed font-sans;
+}
+
+/* Optional: slightly larger, smoother reading for paragraphs */
+section p {
+  @apply text-[1.05rem] md:text-lg opacity-90;
+}
+
+/* Optional: adjust heading sizes globally if needed */
+section h1, section h2, section h3 {
+  @apply font-bold tracking-wide;
+}
