@@ -12,6 +12,7 @@ import {
   Download,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 
 const AdminAbout = () => {
   const { themeName, theme } = useTheme();
@@ -161,9 +162,15 @@ const AdminAbout = () => {
 
       {/* LEFT — Editor */}
       <div className={`lg:w-1/2 w-full p-8 border-r ${theme.border}`}>
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <User /> Edit About Section
-        </h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className={`flex items-center gap-3 text-2xl sm:text-3xl font-extrabold mb-6 ${theme.text}`}
+        >
+          <User className={`${theme.accent.replace("text-", "text-")} w-7 h-7`} />
+          <span className={`${theme.accent}`}>Edit About Section</span>
+        </motion.h2>
 
         <div className="space-y-4">
           {[

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getHomeData } from "../api/UserApi";
 import { ArrowRight, Linkedin, Github, Twitter } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 const Home = () => {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { themeName, theme } = useTheme(); // get theme name + theme values
+  const { themeName, theme } = useTheme();
 
   useEffect(() => {
     const fetchHome = async () => {
@@ -52,11 +53,11 @@ const Home = () => {
     lavender: "hover:bg-purple-500 hover:text-white",
     cyberpunk: "hover:bg-cyan-400 hover:text-pink-600",
   };
-
   const hoverClass = themeHoverMap[themeName] || "hover:opacity-80";
 
   return (
-    <section id="home"
+    <section
+      id="home"
       className={`min-h-screen flex flex-col justify-center items-center ${theme.bg} ${theme.text} px-6 pt-24 md:pt-28 transition-colors duration-500`}
     >
       <motion.div
@@ -83,7 +84,22 @@ const Home = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap justify-center gap-4">
-          {homeData.cta1Link && (
+          {/* If CTA1 is for projects → smooth scroll */}
+          {homeData.cta1Link === "projects" ? (
+            <ScrollLink
+              to="projects"
+              smooth={true}
+              duration={600}
+              offset={-70}
+              className={`cursor-pointer border ${theme.accent} px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition duration-300 ${theme.accent.replace(
+                "text-",
+                "bg-"
+              )} bg-opacity-20 ${hoverClass}`}
+            >
+              {homeData.cta1Text}
+              <ArrowRight size={18} />
+            </ScrollLink>
+          ) : (
             <Link
               to={homeData.cta1Link}
               className={`border ${theme.accent} px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition duration-300 ${theme.accent.replace(
@@ -96,7 +112,18 @@ const Home = () => {
             </Link>
           )}
 
-          {homeData.cta2Link && (
+          {/* If CTA2 is for connect → smooth scroll */}
+          {homeData.cta2Link === "connect" ? (
+            <ScrollLink
+              to="connect"
+              smooth={true}
+              duration={600}
+              offset={-70}
+              className={`cursor-pointer border ${theme.accent} px-6 py-3 rounded-lg font-medium transition duration-300 ${hoverClass}`}
+            >
+              {homeData.cta2Text}
+            </ScrollLink>
+          ) : (
             <Link
               to={homeData.cta2Link}
               className={`border ${theme.accent} px-6 py-3 rounded-lg font-medium transition duration-300 ${hoverClass}`}

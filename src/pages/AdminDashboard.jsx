@@ -19,6 +19,9 @@ import {
   FileText,
   Info,
   BookOpenText,
+  GraduationCap,
+  Award,
+  Trophy,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { logoutUser, deleteUser } from "../api/UserApi";
@@ -59,7 +62,12 @@ const AdminDashboard = () => {
     try {
       const response = await logoutUser(sessionId);
       if (response.success) {
-        localStorage.clear();
+        Object.keys(localStorage).forEach((key) => {
+          if (!["projectOrder", "theme"].includes(key)) {
+            localStorage.removeItem(key);
+          }
+        });
+
         toast.success("Logout successful!", {
           style: { background: "#111", color: "#facc15" },
         });
@@ -105,7 +113,7 @@ const AdminDashboard = () => {
   };
   const hoverClass = hoverStyles[themeName] || "hover:opacity-80";
 
-  // === Sidebar background / text based on theme ===
+  // === Sidebar Theme ===
   const sidebarTheme = {
     blackgold: "bg-gray-900 text-gray-200 border-gray-800",
     forest: "bg-green-950 text-green-100 border-green-800",
@@ -114,7 +122,7 @@ const AdminDashboard = () => {
     lavender: "bg-purple-100 text-gray-800 border-purple-300",
   }[themeName];
 
-  // === Header background based on theme ===
+  // === Header Theme ===
   const headerTheme = {
     blackgold: "bg-gray-900 border-gray-800",
     forest: "bg-green-950 border-green-800",
@@ -123,18 +131,23 @@ const AdminDashboard = () => {
     lavender: "bg-purple-100 border-purple-300",
   }[themeName];
 
+  // === Sidebar Navigation Items ===
   const navItems = [
     { label: "Home", icon: Home, path: "AdminHome" },
     { label: "Visitor Analytics", icon: BarChart3, path: "analytics" },
     { label: "User Management", icon: User, path: "users" },
     { label: "Projects", icon: FolderKanban, path: "projects" },
     { label: "Skills", icon: Wrench, path: "skills" },
-    { label: "Experience / Resume", icon: Briefcase, path: "experience" },
+    { label: "Experience", icon: Briefcase, path: "experience" },
+    { label: "Education", icon: GraduationCap, path: "education" }, // 🎓 Sidebar only
+    { label: "Certifications", icon: Award, path: "certifications" }, // 🏅 Sidebar only
+    { label: "Achievements", icon: Trophy, path: "achievements" }, // 🏆 Sidebar only
     { label: "About / Bio", icon: Info, path: "about" },
     { label: "Blog", icon: BookOpenText, path: "blog" },
     { label: "Messages", icon: MessageCircle, path: "messages" },
   ];
 
+  // === Dashboard Cards (main grid) ===
   const cards = [
     {
       icon: BarChart3,
@@ -143,9 +156,16 @@ const AdminDashboard = () => {
       onClick: () => goToSection("analytics"),
     },
     {
-      icon: FileText,
-      title: "Engagement Metrics",
-      desc: ["Avg. time on site", "Bounce rate", "Top projects"],
+      icon: FolderKanban,
+      title: "Projects",
+      desc: ["Add, edit or remove projects", "Manage project order"],
+      onClick: () => goToSection("projects"),
+    },
+    {
+      icon: BookOpenText,
+      title: "Blogs",
+      desc: ["Add new blog", "Edit or delete posts", "Manage blog visibility"],
+      onClick: () => goToSection("blog"),
     },
     {
       icon: MessageCircle,
@@ -191,7 +211,6 @@ const AdminDashboard = () => {
 
       {/* ==== MAIN ==== */}
       <div className="flex-1 flex flex-col relative z-0">
-        {/* ==== HEADER ==== */}
         <header className={`${headerTheme} px-6 py-3 flex items-center justify-between shadow-md relative z-40`}>
           <div className="flex items-center gap-3">
             <Settings className={`${theme.accent}`} size={24} />

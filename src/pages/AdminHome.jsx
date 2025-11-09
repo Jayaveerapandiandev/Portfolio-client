@@ -3,7 +3,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { updateHomeData, getHomeData } from "../api/UserApi";
 import { Loader2, Save } from "lucide-react";
 import { useTheme } from "../context/ThemeContext"; // 🎨 Theme Context
-
+import { Home } from "lucide-react";
+import { motion } from "framer-motion";
 const AdminHome = () => {
   const { themeName, theme } = useTheme(); // 🌗 get both name + colors
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ const AdminHome = () => {
     github: "",
     twitter: "",
   });
+
 
   // === Fetch home data on mount ===
   useEffect(() => {
@@ -95,9 +97,15 @@ const AdminHome = () => {
 
       {/* LEFT — Editor */}
       <div className={`lg:w-1/2 w-full p-8 border-r ${theme.border}`}>
-        <h2 className={`text-2xl font-bold ${theme.accent} mb-6`}>
-          🏠 Edit Home Content
-        </h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className={`flex items-center gap-3 text-2xl sm:text-3xl font-extrabold mb-6 ${theme.text}`}
+        >
+          <Home className={`${theme.accent.replace("text-", "text-")} w-7 h-7`} />
+          <span className={`${theme.accent}`}>Edit Home Content</span>
+        </motion.h2>
 
         <div className="space-y-4">
           {[

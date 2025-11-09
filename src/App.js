@@ -16,6 +16,7 @@ import AdminHome from "./pages/AdminHome";
 import { ThemeProvider } from "./context/ThemeContext"; // ✅ your theme context
 import AdminAbout from "./pages/AdminAbout";
 import Main from "./pages/Main";
+import AdminProjects from "./pages/AdminProjects";
 
 const App = () => {
   const location = useLocation();
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/admin/create-user" element={<AdminCreateUser />} />
           <Route path="/admin/AdminHome" element={<AdminHome />} />
           <Route path="/admin/about" element={<AdminAbout/>}/>
+          <Route path="/admin/projects" element={<AdminProjects/>}/>
         </Route>
 
         {/* Fallback */}
