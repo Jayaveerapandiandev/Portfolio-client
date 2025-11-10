@@ -66,47 +66,27 @@ export const deleteProject = async (id) => {
   return res.data;
 };
 
-// ✅ Get all experience
-export const getExperience = async () => {
-  const res = await apiClient.get("/Experience/all");
-  return res.data;
-};
 
-// ✅ Add new company + first role
 export const addExperience = async (data) => {
-  const res = await apiClient.post("/Experience/add", data);
-  return res.data;
+  const response = await apiClient.post("/Experience/add", data);
+  return response.data;
 };
 
-// ✅ Update company
-export const updateExperience = async (id, data) => {
-  const res = await apiClient.put(`/Experience/update/${id}`, data);
-  return res.data;
+// 🔹 2️⃣ Get all companies with experiences
+export const getCompanies = async () => {
+  const response = await apiClient.get("/Experience/all");
+  return response.data;
 };
 
-// ✅ Delete company
-export const deleteExperience = async (id) => {
-  const res = await apiClient.delete(`/Experience/delete/${id}`);
-  return res.data;
+// 🔹 3️⃣ Add a new position (experience) for an existing company
+export const addExperienceForExistingCompany = async (data) => {
+  const response = await apiClient.post("/Experience/addForExistingCompany", data);
+  return response.data;
 };
 
-// ✅ Add a new role to company
-export const addPosition = async (experienceId, data) => {
-  const res = await apiClient.post(`/Experience/position/add/${experienceId}`, data);
-  return res.data;
+// 🔹 4️⃣ Delete a company and all its experiences
+export const deleteExperienceCompany = async (companyId) => {
+  const response = await apiClient.delete(`/Experience/delete/${companyId}`);
+  return response.data;
 };
-
-// ✅ Update a role
-export const updatePosition = async (positionId, data) => {
-  const res = await apiClient.put(`/Experience/position/update/${positionId}`, data);
-  return res.data;
-};
-
-// ✅ Delete a role
-export const deletePosition = async (positionId) => {
-  const res = await apiClient.delete(`/Experience/position/delete/${positionId}`);
-  return res.data;
-};
-
-
 

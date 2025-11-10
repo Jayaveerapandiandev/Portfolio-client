@@ -17,6 +17,8 @@ import { ThemeProvider } from "./context/ThemeContext"; // ✅ your theme contex
 import AdminAbout from "./pages/AdminAbout";
 import Main from "./pages/Main";
 import AdminProjects from "./pages/AdminProjects";
+import AdminExperience from "./pages/AdminExperience";
+
 
 const App = () => {
   const location = useLocation();
@@ -43,6 +45,7 @@ const App = () => {
           <Route path="/admin/AdminHome" element={<AdminHome />} />
           <Route path="/admin/about" element={<AdminAbout/>}/>
           <Route path="/admin/projects" element={<AdminProjects/>}/>
+          <Route path="/admin/experience" element={<AdminExperience/>}/>
         </Route>
 
         {/* Fallback */}
