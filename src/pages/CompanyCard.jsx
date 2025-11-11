@@ -1,7 +1,13 @@
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
 
-const CompanyCard = ({ company, onAddPosition, onDelete, children }) => {
+const CompanyCard = ({
+  company,
+  onAddPosition,
+  onDelete,
+  onDeletePosition, // 🆕 new prop
+  children,
+}) => {
   const { theme } = useTheme();
 
   return (
@@ -50,13 +56,25 @@ const CompanyCard = ({ company, onAddPosition, onDelete, children }) => {
           company.experiences.map((exp) => (
             <div
               key={exp.id}
-              className={`border-l-4 ${theme.border} pl-3 mb-3`}
+              className={`border-l-4 ${theme.border} pl-3 mb-3 flex justify-between items-center`}
             >
-              <p className={`font-medium ${theme.accent}`}>{exp.designation}</p>
-              <p className="text-sm opacity-80">{exp.positionTitle}</p>
-              <p className="text-xs opacity-60">
-                {exp.startDate} - {exp.endDate || "Present"}
-              </p>
+              <div>
+                <p className={`font-medium ${theme.accent}`}>
+                  {exp.designation}
+                </p>
+                <p className="text-sm opacity-80">{exp.positionTitle}</p>
+                <p className="text-xs opacity-60">
+                  {exp.startDate} - {exp.endDate || "Present"}
+                </p>
+              </div>
+
+              {/* 🗑️ Delete position button */}
+              <button
+                onClick={() => onDeletePosition(exp.id)}
+                className="px-2 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600 transition"
+              >
+                Delete
+              </button>
             </div>
           ))
         ) : (

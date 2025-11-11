@@ -90,3 +90,9 @@ export const deleteExperienceCompany = async (companyId) => {
   return response.data;
 };
 
+export const deleteExperiencePosition = async (experienceId) => {
+  const response = await apiClient.delete(`/Experience/deletePosition/${experienceId}`);
+  return response.data;
+};
+
+

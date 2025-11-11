@@ -17,6 +17,7 @@
     "react-day-picker": "^9.11.1",
     "react-dom": "^19.2.0",
     "react-hot-toast": "^2.6.0",
+    "react-intersection-observer": "^10.0.0",
     "react-router-dom": "^7.9.5",
     "react-scripts": "^5.0.1",
     "react-scroll": "^1.9.3",

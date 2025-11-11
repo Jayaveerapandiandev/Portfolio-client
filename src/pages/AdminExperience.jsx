@@ -5,6 +5,7 @@ import { useTheme } from "../context/ThemeContext";
 import {
   getCompanies,
   deleteExperienceCompany,
+  deleteExperiencePosition
 } from "../api/UserApi";
 import CompanyCard from "./CompanyCard";
 import ExperienceForm from "./ExperienceForm";
@@ -48,6 +49,21 @@ const AdminExperience = () => {
       toast.error("Error deleting company");
     }
   };
+
+  const handleDeletePosition = async (experienceId) => {
+  try {
+    const res = await deleteExperiencePosition(experienceId);
+    if (res?.success) {
+      toast.success("Position deleted successfully");
+      loadCompanies(); // refresh UI
+    } else {
+      toast.error(res?.message || "Failed to delete position");
+    }
+  } catch (err) {
+    toast.error("Error deleting position");
+  }
+};
+
 
   return (
     <section
@@ -93,6 +109,7 @@ const AdminExperience = () => {
             company={company}
             onAddPosition={() => setShowFormForCompany(company.id)}
             onDelete={() => handleDeleteCompany(company.id)}
+            onDeletePosition={handleDeletePosition} 
           >
             {showFormForCompany === company.id && (
               <ExperienceForm
