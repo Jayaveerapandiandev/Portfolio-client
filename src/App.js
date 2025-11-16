@@ -18,6 +18,7 @@ import AdminAbout from "./pages/AdminAbout";
 import Main from "./pages/Main";
 import AdminProjects from "./pages/AdminProjects";
 import AdminExperience from "./pages/AdminExperience";
+import AdminSkills from "./pages/AdminSkills";
 
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/admin/about" element={<AdminAbout/>}/>
           <Route path="/admin/projects" element={<AdminProjects/>}/>
           <Route path="/admin/experience" element={<AdminExperience/>}/>
+          <Route path="/admin/skills" element={<AdminSkills/>}/>
         </Route>
 
         {/* Fallback */}

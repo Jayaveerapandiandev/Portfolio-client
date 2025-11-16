@@ -95,4 +95,23 @@ export const deleteExperiencePosition = async (experienceId) => {
   return response.data;
 };
 
+//Skills Api calls 
+export const getSkills = async () => {
+  const response = await apiClient.get("/Skills/GetSkills");
+  return response.data;
+};
 
+export const addSkill = async (data) => {
+  const response = await apiClient.post("/Skills/AddNewSkill", data);
+  return response.data;
+};
+
+export const updateSkill = async (id, data) => {
+  const response = await apiClient.put(`/Skills/UpdateSkills/${id}`, data);
+  return response.data;
+};
+
+export const deleteSkillById = async (id) => {
+  const response = await apiClient.delete(`/Skills/deleteSkill/${id}`);
+  return response.data;
+};
