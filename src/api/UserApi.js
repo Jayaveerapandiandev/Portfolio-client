@@ -115,3 +115,24 @@ export const deleteSkillById = async (id) => {
   const response = await apiClient.delete(`/Skills/deleteSkill/${id}`);
   return response.data;
 };
+
+// Connect API calls
+export const sendMessage = async (data) => {
+  const res = await apiClient.post("/Messages/create", data);
+  return res.data;
+};
+
+export const getAllMessages = async () => {
+  const response = await apiClient.get("/Messages/all");
+  return response.data;
+};
+
+export const markMessageAsSeen = async (id) => {
+  const response = await apiClient.patch(`/Messages/mark-seen/${id}`);
+  return response.data;
+};
+
+export const deleteMessageById = async (id) => {
+  const response = await apiClient.delete(`/Messages/delete/${id}`);
+  return response.data;
+};

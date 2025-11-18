@@ -63,7 +63,7 @@ const AdminDashboard = () => {
       const response = await logoutUser(sessionId);
       if (response.success) {
         Object.keys(localStorage).forEach((key) => {
-          if (!["projectOrder", "theme"].includes(key)) {
+          if (!["projectOrder", "theme" , "admin_messages_favorites_v1"].includes(key)  ) {
             localStorage.removeItem(key);
           }
         });
