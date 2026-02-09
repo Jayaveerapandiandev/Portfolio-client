@@ -5,6 +5,7 @@ import About from "./About";
 import Experience from "./Experience";
 import Projects from "./Projects";
 import Skills from "./Skills"; // ✅ Import Skills
+import Education from "./Education"; // ✅ add this
 import Connect from "./Connect";
 import { useTheme } from "../context/ThemeContext";
 
@@ -50,6 +51,17 @@ const Main = () => {
 
       <Divider />
 
+      {/* 🎓 Education Section */}
+      <section
+        id="education"
+        className="min-h-screen flex items-center justify-center"
+      >
+        <Education />
+      </section>
+
+
+      <Divider />
+
       {/* ✉️ Connect Section */}
       <section id="connect" className="min-h-screen flex items-center justify-center">
         <Connect />
@@ -70,3 +82,4 @@ const Divider = () => (
 );
 
 export default Main;
+

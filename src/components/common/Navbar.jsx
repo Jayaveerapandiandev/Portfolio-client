@@ -1,16 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
-import { Menu, X, User, ChevronDown } from "lucide-react";
+
+import {
+  Menu,
+  X,
+  User,
+  ChevronDown,
+  Home,
+  UserCircle,
+  Briefcase,
+  FolderKanban,
+  Sparkles,
+  GraduationCap,
+  Mail,
+} from "lucide-react";
+
 import { useTheme } from "../../context/ThemeContext";
 
 const navLinks = [
-  { to: "home", label: "Home" },
-  { to: "about", label: "About" },
-  { to: "experience", label: "Experience" },
-  { to: "projects", label: "Projects" },
-  { to: "skills", label: "Skills" },
-  { to: "connect", label: "Connect" },
+  { to: "home", label: "Home", icon: <Home size={18} /> },
+  { to: "about", label: "About", icon: <UserCircle size={18} /> },
+  { to: "experience", label: "Experience", icon: <Briefcase size={18} /> },
+  { to: "projects", label: "Projects", icon: <FolderKanban size={18} /> },
+  { to: "skills", label: "Skills", icon: <Sparkles size={18} /> },
+  { to: "education", label: "Education", icon: <GraduationCap size={18} /> },
+  { to: "connect", label: "Connect", icon: <Mail size={18} /> },
 ];
 
 const themesList = [
@@ -27,6 +42,17 @@ const Navbar = () => {
   const { themeName, setThemeName, theme } = useTheme();
   const hoverTimeout = useRef(null);
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 80);
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const handleMouseEnter = () => {
     clearTimeout(hoverTimeout.current);
     setThemeMenuOpen(true);
@@ -40,84 +66,135 @@ const Navbar = () => {
 
   return (
     <header
-      className={`${theme.bg} fixed w-full z-50 top-0 left-0 ${theme.border} border-b shadow-md transition-colors duration-300`}
+      className={`${theme.bg} fixed w-full z-50 top-0 left-0 ${theme.border} 
+      border-b shadow-md transition-all duration-300 
+      ${scrolled ? "py-1 backdrop-blur-md bg-opacity-80" : "py-3"}`}
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 md:px-6 py-3">
-        {/* Logo */}
+      <div
+        className="
+          max-w-6xl mx-auto 
+          flex items-center 
+          justify-start 
+          gap-6 
+          px-4 md:px-6
+        "
+      >
+        {/* ⭐ LOGO — spaced from first section */}
         <RouterLink
           to="/"
-          className={`text-xl md:text-2xl font-semibold ${theme.accent}`}
+          className={`
+            ${scrolled ? "opacity-0 pointer-events-none scale-90" : "opacity-100"}
+            transition-all duration-300 
+            text-xl md:text-2xl font-semibold 
+            ${theme.accent} whitespace-nowrap 
+            mr-12           /* FIXED: Name no longer touching Home */
+          `}
         >
           Jayaveerapandian S
         </RouterLink>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-4 relative">
+        {/* ⭐ DESKTOP NAV */}
+        <nav
+          className="
+            hidden md:flex items-center gap-4 
+            relative 
+            px-5 py-2 
+            rounded-xl 
+            bg-opacity-30 backdrop-blur-md 
+            shadow-sm hover:shadow-md 
+            transition-all
+          "
+        >
           {navLinks.map((link) => (
             <ScrollLink
               key={link.to}
               to={link.to}
               smooth={true}
               duration={600}
-              offset={-80} // adjust based on navbar height
+              offset={-80}
               spy={true}
-              className={`cursor-pointer text-sm font-medium px-3 py-2 transition duration-200 ${theme.text} hover:${theme.accent}`}
-              activeClass={theme.accent}
+              className={`
+                cursor-pointer flex flex-col items-center justify-center
+                px-3 py-1 transition duration-200 
+                ${theme.text} hover:${theme.accent}
+                relative
+              `}
             >
-              {link.label}
+              {/* ICON */}
+              <span
+                className="
+                  transition-all duration-300 
+                  hover:-translate-y-[2px] hover:scale-110
+                "
+              >
+                {link.icon}
+              </span>
+
+              {/* LABEL (hidden when scrolled) */}
+              {!scrolled && (
+                <span className="text-[11px] mt-1 leading-none">
+                  {link.label}
+                </span>
+              )}
             </ScrollLink>
           ))}
 
-          {/* Admin Link (Router navigation) */}
+          {/* ADMIN */}
           <RouterLink
             to="/admin/login"
-            className={`ml-3 inline-flex items-center gap-2 text-sm font-medium transition duration-200 ${theme.text} hover:${theme.accent}`}
+            className={`
+              flex flex-col items-center px-3 py-1 
+              ${theme.text} hover:${theme.accent} transition
+            `}
           >
-            <User size={18} />
-            <span className="hidden sm:inline">Admin</span>
+            <User size={18} className="transition-all hover:scale-110" />
+            {!scrolled && <span className="text-[11px] mt-1">Admin</span>}
           </RouterLink>
 
-          {/* 🌈 Theme Dropdown */}
-          <div
-            className="relative ml-4"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <button
-              className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium ${theme.text} hover:${theme.accent} transition`}
+          {/* THEME MENU */}
+          {!scrolled && (
+            <div
+              className="relative ml-3"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
-              Theme <ChevronDown size={16} />
-            </button>
-
-            {themeMenuOpen && (
-              <div
-                className={`${theme.bg} absolute right-0 mt-2 w-40 rounded-md border ${theme.border} shadow-lg z-50`}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+              <button
+                className={`
+                  flex items-center gap-1 px-3 py-2 rounded-md text-sm
+                  ${theme.text} hover:${theme.accent} transition
+                `}
               >
-                {themesList.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setThemeName(t.id);
-                      setThemeMenuOpen(false);
-                    }}
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      themeName === t.id
-                        ? `${theme.accent} font-semibold`
-                        : `${theme.text} hover:${theme.accent}`
-                    } transition`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+                Theme <ChevronDown size={16} />
+              </button>
+
+              {themeMenuOpen && (
+                <div
+                  className={`${theme.bg} absolute right-0 mt-2 w-40 rounded-md border ${theme.border} shadow-lg z-50`}
+                >
+                  {themesList.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => {
+                        setThemeName(t.id);
+                        setThemeMenuOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 text-sm ${
+                        themeName === t.id
+                          ? `${theme.accent} font-semibold`
+                          : `${theme.text} hover:${theme.accent}`
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </nav>
 
-        {/* Mobile Controls */}
-        <div className="md:hidden flex items-center">
+        {/* ⭐ MOBILE */}
+        <div className="md:hidden ml-auto flex items-center">
           <RouterLink
             to="/admin/login"
             className={`${theme.text} hover:${theme.accent} transition mr-2`}
@@ -135,11 +212,9 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* ⭐ MOBILE MENU */}
       {open && (
-        <div
-          className={`${theme.bg} border-t ${theme.border} shadow-md md:hidden`}
-        >
+        <div className={`${theme.bg} border-t ${theme.border} shadow-md md:hidden`}>
           <nav className="px-4 py-4 space-y-2 flex flex-col">
             {navLinks.map((link) => (
               <ScrollLink
@@ -149,34 +224,11 @@ const Navbar = () => {
                 duration={600}
                 offset={-80}
                 onClick={() => setOpen(false)}
-                className={`block text-sm font-medium px-3 py-2 transition duration-200 ${theme.text} hover:${theme.accent} cursor-pointer`}
+                className={`flex items-center gap-2 px-3 py-2 text-sm font-medium ${theme.text} hover:${theme.accent}`}
               >
-                {link.label}
+                {link.icon} {link.label}
               </ScrollLink>
             ))}
-
-            <RouterLink
-              to="/admin/login"
-              onClick={() => setOpen(false)}
-              className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium transition duration-200 ${theme.text} hover:${theme.accent}`}
-            >
-              <User size={18} /> Admin
-            </RouterLink>
-
-            {/* 🌈 Theme Dropdown (Mobile) */}
-            <div className="pt-2">
-              <select
-                value={themeName}
-                onChange={(e) => setThemeName(e.target.value)}
-                className={`w-full bg-transparent border ${theme.border} ${theme.text} text-sm px-3 py-2 rounded hover:${theme.accent} cursor-pointer transition`}
-              >
-                {themesList.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
-            </div>
           </nav>
         </div>
       )}

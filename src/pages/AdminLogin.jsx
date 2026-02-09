@@ -30,9 +30,10 @@ const AdminLogin = () => {
       };
 
       const data = await loginUser(payload);
-
+      console.log(data);
       if (data.success) {
         setMessage("✅ Login successful!");
+        localStorage.setItem("token" , data.token);
         localStorage.setItem("sessionId", data.sessionId);
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("username", data.username);

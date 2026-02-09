@@ -26,6 +26,8 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { logoutUser, deleteUser } from "../api/UserApi";
 import { useTheme } from "../context/ThemeContext";
+import { toastThemeStyles } from "../utils/toastTheme";
+
 
 const AdminDashboard = () => {
   const { theme, themeName } = useTheme();
@@ -53,30 +55,38 @@ const AdminDashboard = () => {
 
   // === Logout ===
   const handleLogout = async () => {
-    const sessionId = localStorage.getItem("sessionId");
-    if (!sessionId) {
-      navigate("/admin/login");
-      return;
-    }
+  const sessionId = localStorage.getItem("sessionId");
+  if (!sessionId) {
+    navigate("/admin/login");
+    return;
+  }
 
-    try {
-      const response = await logoutUser(sessionId);
-      if (response.success) {
-        Object.keys(localStorage).forEach((key) => {
-          if (!["projectOrder", "theme" , "admin_messages_favorites_v1"].includes(key)  ) {
-            localStorage.removeItem(key);
-          }
-        });
+  try {
+    const response = await logoutUser(sessionId);
 
-        toast.success("Logout successful!", {
-          style: { background: "#111", color: "#facc15" },
-        });
-        setTimeout(() => navigate("/"), 1200);
-      } else toast.error(response.message || "Logout failed.");
-    } catch {
-      toast.error("Error during logout. Please try again.");
+    if (response.success) {
+      Object.keys(localStorage).forEach((key) => {
+        if (!["projectOrder", "theme", "admin_messages_favorites_v1"].includes(key)) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      toast.success("Logout successful!", {
+        style: toastThemeStyles[themeName],
+      });
+
+      setTimeout(() => navigate("/"), 1200);
+    } else {
+      toast.error(response.message || "Logout failed.", {
+        style: toastThemeStyles[themeName],
+      });
     }
-  };
+  } catch {
+    toast.error("Error during logout. Please try again.", {
+      style: toastThemeStyles[themeName],
+    });
+  }
+};
 
   // === Delete User ===
   const handleDeleteUser = () => setShowDeleteModal(true);
@@ -88,10 +98,10 @@ const AdminDashboard = () => {
     }
     try {
       const response = await deleteUser(userIdToDelete.trim());
-      if (response.success) toast.success(`✅ User "${userIdToDelete}" deleted.`);
+      if (response.success) toast.success(`User "${userIdToDelete}" deleted.`);
       else toast.error(response.message || "User deletion failed.");
     } catch {
-      toast.error("⚠️ Failed to delete user.");
+      toast.error(" Failed to delete user.");
     } finally {
       setShowDeleteModal(false);
       setUserIdToDelete("");

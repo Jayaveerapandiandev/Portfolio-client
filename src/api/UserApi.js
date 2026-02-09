@@ -24,6 +24,13 @@ export const deleteUser = async (userId) => {
   return response.data;
 };
 
+// 🔹 CHANGE PASSWORD
+export const changePassword = async (data) => {
+  const response = await apiClient.put("/User/change-password", data);
+  return response.data;
+};
+
+
 export const updateHomeData = async (data) => {
   const response = await apiClient.post("/Admin/Save", data);
   return response.data;
@@ -134,5 +141,37 @@ export const markMessageAsSeen = async (id) => {
 
 export const deleteMessageById = async (id) => {
   const response = await apiClient.delete(`/Messages/delete/${id}`);
+  return response.data;
+};
+
+
+// ===================== EDUCATION API =====================
+
+// Get all education records
+export const getEducation = async () => {
+  const response = await apiClient.get("/Education/GetEducation");
+  return response.data;
+};
+
+// Add new education
+export const addEducation = async (data) => {
+  const response = await apiClient.post("/Education/add", data);
+  return response.data;
+};
+
+// Update education by id
+export const updateEducation = async (id, data) => {
+  const response = await apiClient.put(
+    `/Education/UpdateEducation/${id}`,
+    data
+  );
+  return response.data;
+};
+
+// Delete education by id
+export const deleteEducationById = async (id) => {
+  const response = await apiClient.delete(
+    `/Education/DeleteEducation/${id}`
+  );
   return response.data;
 };

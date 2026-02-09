@@ -60,6 +60,7 @@ const Connect = () => {
         category: form.category,
         message: form.message,
       });
+      console.log(response.message)
 
       showToast(response.success ? "success" : "error", response.message);
 
@@ -130,13 +131,13 @@ const Connect = () => {
               <ContactItem
                 icon={<Phone size={28} className={theme.accent} />}
                 title="Phone"
-                value="+91 9876543210"
+                value="+91 9361627614"
               />
 
               <ContactItem
                 icon={<Mail size={28} className={theme.accent} />}
                 title="Email"
-                value="developer@example.com"
+                value="jayaveerapandian18@gmail.com"
               />
 
               <ContactLink
@@ -147,7 +148,7 @@ const Connect = () => {
               />
 
               <ContactLink
-                href="https://github.com"
+                href="https://github.com/Jayaveerapandiandev"
                 icon={<Github size={28} className={theme.accent} />}
                 title="GitHub"
                 value="github.com/developer"
